@@ -9,17 +9,19 @@ public class PlayerManager : MonoBehaviour
 
     float x ;
     float z ;
-    public float MoveSpeed ;//移動速度の倍速
+    public float MoveSpeed ; //移動速度の倍速
+    public Collider WeaponCollider; //武器判定の有無
 
 
-    // Start is called before the first frame update
+    // Update関数の前に１度だけ実行される：設定
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        HideColliderWeapon();
     }
 
-    // Update is called once per frame
+   
     void Update()
     {
         //キーボード入力で移動
@@ -45,6 +47,31 @@ public class PlayerManager : MonoBehaviour
 
         //Speedの大きさを取得 → アニメーションの切り替え時に必要
         animator.SetFloat("Speed", rb.velocity.magnitude);
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Damager damager = other.GetComponent<Damager>();
+        if (damager != null)
+        {
+            //ダメージを与えるものにぶつかったら
+            animator.SetTrigger("Hurt");
+
+        }
+
+    }
+
+
+    //武器判定の有無を付与する関数
+    public void HideColliderWeapon()
+    {
+        WeaponCollider.enabled = false;
+    }
+
+    public void ShowColliderWeapon()
+    {
+        WeaponCollider.enabled = true;
 
     }
 }

@@ -14,7 +14,7 @@ public class PlayerAttackBeheviour : StateMachineBehaviour
     //アニメーション中に実行されるもの
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        animator.GetComponent<PlayerManager>().MoveSpeed = 0;
     }
 
     //アニメーション遷移時に実行されるもの
